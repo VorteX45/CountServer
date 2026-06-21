@@ -1,6 +1,6 @@
 ﻿namespace CountServer
 {
-    static internal class Server
+    static public class Server
     {
         private static int count = 0;
         static SemaphoreSlim writeSemaphore = new SemaphoreSlim(1, 1);
@@ -13,7 +13,7 @@
         }
 
 
-        public async static Task AddToCount(int value)
+        public async static Task<int> AddToCount(int value)
         {
             await writeSemaphore.WaitAsync();
 
@@ -25,6 +25,7 @@
                 count += value;
 
             writeSemaphore.Release();
+            return count;
         }
     }
 }
